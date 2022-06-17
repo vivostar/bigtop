@@ -278,9 +278,9 @@ def genTasks = { target ->
 
     safeDelete(TAR_DIR); mkdir(TAR_DIR)
     // for test
-    def bomWriter = new File("$TAR_DIR/bigtop.bom").newWriter()
-    bomVersions.each { bomWriter << "$it\n"}
-    bomWriter.close()
+    // def bomWriter = new File("$TAR_DIR/bigtop.bom").newWriter()
+    // bomVersions.each { bomWriter << "$it\n"}
+    // bomWriter.close()
 
     if (TARBALL_SRC.isEmpty() || TARBALL_SRC.endsWith('.zip')) {
       if (TARBALL_SRC.isEmpty()) {
