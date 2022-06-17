@@ -278,7 +278,7 @@ def genTasks = { target ->
 
     safeDelete(TAR_DIR); mkdir(TAR_DIR)
     // for test
-    def bomWriter = new File("TAR_DIR/bigtop.bom").newWriter()
+    def bomWriter = new File("$TAR_DIR/bigtop.bom").newWriter()
     bomVersions.each { bomWriter << "$it\n"}
     bomWriter.close()
 
