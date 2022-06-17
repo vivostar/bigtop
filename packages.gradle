@@ -274,7 +274,13 @@ def genTasks = { target ->
     def final DOWNLOAD_DST = config.bigtop.components[target].downloaddst ?: ""
     def final SEED_TAR = config.bigtop.components[target].seedtar
 
+
+
     safeDelete(TAR_DIR); mkdir(TAR_DIR)
+    // for test
+    def bomWriter = new File("TAR_DIR/bigtop.bom").newWriter()
+    bomVersions.each { bomWriter << "$it\n"}
+    bomWriter.close()
 
     if (TARBALL_SRC.isEmpty() || TARBALL_SRC.endsWith('.zip')) {
       if (TARBALL_SRC.isEmpty()) {
@@ -478,6 +484,7 @@ def genTasks = { target ->
     def final NAME = config.bigtop.components[target].name
     def final PKG_NAME = config.bigtop.components[target].pkg
     def final PKG_OUTPUT_DIR = config.bigtop.components[target].outputdir
+    def final PKG_OUTPUT_TAR_DIR = config.bigtop.components[target].outputtardir
     def final PKG_VERSION = config.bigtop.components[target].version.pkg
     def final BASE_VERSION = config.bigtop.components[target].version.base
     def final HADOOP_VERSION = config.bigtop.components["hadoop"].version.pkg
@@ -516,6 +523,12 @@ def genTasks = { target ->
         include '**/*'
       }
       into PKG_OUTPUT_DIR
+    }
+    copy {
+      from fileTree("$PKG_BUILD_DIR/rpm/BUILD") {
+        include '**/*'
+      }
+      into PKG_OUTPUT_TAR_DIR
     }
     touchTargetFile(config.bigtop.components[target].targetrpm)
   }
@@ -705,6 +718,7 @@ def genTasks = { target ->
 
     config.bigtop.components[target].builddir = config.bigtop.builddir + "/$target"
     config.bigtop.components[target].outputdir = config.bigtop.outputdir + "/$target"
+    config.bigtop.components[target].outputtardir = config.bigtop.outputdir + "/tar/$target"
     config.bigtop.components[target].srcdir = config.bigtop.builddir + "/source"
     config.bigtop.components[target].tardir = config.bigtop.builddir + "/$target/tar/${target}-${config.bigtop.components[target].version.base}"
     config.bigtop.components[target].seedtar = config.bigtop.builddir + "/$target/tar/" + config.bigtop.components[target].tarball.destination

@@ -134,6 +134,9 @@ mvn site site:stage ${MAVEN_OPTS} $@
 (cd build ; tar --strip-components=1 -xzvf  ../hadoop-dist/target/hadoop-${HADOOP_VERSION}.tar.gz)
 (cd build/src ; tar --strip-components=1 -xzvf  ../../hadoop-dist/target/hadoop-${HADOOP_VERSION}-src.tar.gz)
 
+# retain tar package
+cp hadoop-dist/target/hadoop-${HADOOP_VERSION}.tar.gz ../hadoop-${HADOOP_VERSION}-bin.tar.gz
+
 # Copy generated docs
 mkdir -p build/share
 cp -r target/staging/hadoop-project build/share/doc
