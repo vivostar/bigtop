@@ -281,10 +281,10 @@
           <osFamily>redhat7,amazonlinux2,redhat6,suse11,suse12</osFamily>
           <packages>
             <package>
-              <name>hive_${stack_version}</name>
+              <name>hive</name>
             </package>
             <package>
-              <name>hive_${stack_version}-hcatalog</name>
+              <name>hive-hcatalog</name>
             </package>
           </packages>
         </osSpecific>
