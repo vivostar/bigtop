@@ -120,8 +120,8 @@ class HiveServiceAdvisor(service_advisor.ServiceAdvisor):
     Entry point.
     Must be overriden in child class.
     """
-    self.logger.info("Class: %s, Method: %s. Recommending Service Configurations." %
-                (self.__class__.__name__, inspect.stack()[0][3]))
+    # self.logger.info("Class: %s, Method: %s. Recommending Service Configurations." %
+    #             (self.__class__.__name__, inspect.stack()[0][3]))
 
     recommender = HiveRecommender()
     recommender.recommendHiveConfigurationsFromHDP30(configurations, clusterData, services, hosts)
@@ -134,8 +134,8 @@ class HiveServiceAdvisor(service_advisor.ServiceAdvisor):
     Validate configurations for the service. Return a list of errors.
     The code for this function should be the same for each Service Advisor.
     """
-    self.logger.info("Class: %s, Method: %s. Validating Configurations." %
-                (self.__class__.__name__, inspect.stack()[0][3]))
+    # self.logger.info("Class: %s, Method: %s. Validating Configurations." %
+    #             (self.__class__.__name__, inspect.stack()[0][3]))
 
     validator = HiveValidator()
     # Calls the methods of the validator using arguments,
