@@ -125,13 +125,10 @@ zk_bin = format('{stack_root}/current/zookeeper-client/bin')
 hive_server2_hive_dir = None
 hive_server2_hive_lib = None
 
+# the name of the hiveserver2-hive2 component
+hive_server2_hive_component = status_params.SERVER_ROLE_DIRECTORY_MAP["HIVE_SERVER"]
+
 if check_stack_feature(StackFeature.HIVE_SERVER_INTERACTIVE, version_for_stack_feature_checks):
-  # the name of the hiveserver2-hive2 component
-  hive_server2_hive_component = status_params.SERVER_ROLE_DIRECTORY_MAP["HIVE_SERVER"]
-
-  print("****************************")
-  print(hive_server2_hive_component)
-
   # when using the version, we can just specify the component as "hive2"
   hive_schematool_ver_bin = format('{stack_root}/{version}/hive/bin')
 
