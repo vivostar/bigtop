@@ -58,7 +58,6 @@ class hadoop_hive {
                        $server2_thrift_http_port = "10001",
                        $hive_execution_engine = "mr",
                        $hive_metastore_db = "embedded",
-                       $javax_jdo_option_ConnectionDriverName = undef,
                        $javax_jdo_option_ConnectionURL = undef,
                        $javax_jdo_option_ConnectionUserName = undef,
                        $javax_jdo_option_ConnectionPassword = undef) {

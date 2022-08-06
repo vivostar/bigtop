@@ -89,8 +89,12 @@
   <name>javax.jdo.option.ConnectionDriverName</name>
   <% if @hive_metastore_db == "embedded" -%>
   <value>org.apache.derby.jdbc.EmbeddedDriver</value>
-  <% else -%>
-  <value><%= @javax_jdo_option_ConnectionDriverName %></value>
+  <% end -%>
+  <% if @hive_metastore_db == "mysql" -%>
+  <value>com.mysql.jdbc.Driver</value>
+  <% end -%>
+  <% if @hive_metastore_db == "postgresql" -%>
+  <value>org.postgresql.Driver</value>
   <% end -%>
   <description>Driver class name for a JDBC metastore</description>
 </property>
