@@ -56,7 +56,11 @@ class hadoop_hive {
                        $metastore_schema_verification = true,
                        $server2_thrift_port = "10000",
                        $server2_thrift_http_port = "10001",
-                       $hive_execution_engine = "mr") {
+                       $hive_execution_engine = "mr",
+                       $hive_metastore_db = "embedded",
+                       $javax_jdo_option_ConnectionURL = undef,
+                       $javax_jdo_option_ConnectionUserName = undef,
+                       $javax_jdo_option_ConnectionPassword = undef) {
     include hadoop_hive::client_package
     if ($kerberos_realm and $kerberos_realm != "") {
       require kerberos::client
