@@ -70,17 +70,14 @@ class hadoop_hive {
       }
     }
 
-    if ($hive_metastore_db == "mysql") {
+     if ($hive_metastore_db == "mysql") {
       $mysql_connector_java = "mysql-connector-java.jar"
-      $mysql_connector_java_share = "/usr/share/java/$mysql_connector_java"
-      $mysql_connector_java_link = "/usr/lib/hive/lib/$mysql_connector_java"
-      file { $mysql_connector_java_share:
-        source  => "puppet://modules/hadoop_hive/$mysql_connector_java",
+      $mysql_connector_java_dir = "/usr/lib/hive/lib/$mysql_connector_java"
+      file { $mysql_connector_java_dir:
+        source  => "puppet:///modules/hadoop_hive/$mysql_connector_java",
         owner   => "hive",
         group   => "hive",
         mode    => "0700",
-        ensure  => link,
-        target  => "$mysql_connector_java_link"
         require => Package["hive"],
       }
     }
