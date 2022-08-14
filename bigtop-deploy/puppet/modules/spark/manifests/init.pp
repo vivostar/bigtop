@@ -46,9 +46,43 @@ class spark {
     
   }
 
-  class spark_thriftserver {
-    include spark::common
+  class derby_deploy {
+
+    file { '/opt/derby':
+      ensure  =>  directory,
+      source  =>  'puppet:///modules/spark/derby/db-derby-10.14.2.0-bin',
+      mode    =>  '0700',
+      recurse =>  true,
+    }
     
+    file { '/usr/lib/spark/jars/derbyclient.jar':
+      source  => 'file:///opt/derby/lib/derbyclient.jar',
+      mode    =>  '0744',
+      require => File['/opt/derby'],
+    }  
+
+    exec { 'java -jar lib/derbyrun.jar server start  > /var/log/derby.log 2>&1 & echo $! > /var/run/derby.pid':
+      cwd     => '/opt/derby',
+      creates => [
+        '/var/log/derby.log',
+        '/var/run/derby.pid',
+      ],
+      unless => 'test -f /var/run/derby.pid',
+      path    => ['/usr/bin', '/usr/sbin',],
+      require => [
+         File['/opt/derby'],
+         File['/usr/lib/spark/jars/derbyclient.jar'],
+      ],
+    }
+  
+  }
+
+  class spark_thriftserver inherits spark::common {
+    
+    if ($spark_thrift_server_without_hive) {
+      include spark::derby_deploy
+    }
+
     package { 'spark-thriftserver': 
       ensure => latest,
     }
@@ -207,6 +241,9 @@ class spark {
   }
 
   class common(
+      $spark_thrift_server_without_hive = true,
+      $spark_hadoop_javax_jdo_option_ConnectionURL = undef,
+      $spark_hadoop_javax_jdo_option_ConnectionDriverName = undef,
       $spark_hive_server2_thrift_port = undef,
       $spark_sql_warehouse_dir = undef,
       $master_url = undef,
