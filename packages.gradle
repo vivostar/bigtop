@@ -508,6 +508,11 @@ def genTasks = { target ->
       command.addAll('--define', "maven_repo_id ${MAVEN_REPO_ID}")
     }
 
+    // test
+    println BASE_DIR
+    println command
+    println "$PKG_BUILD_DIR"
+
     exec {
       workingDir BASE_DIR
       executable 'rpmbuild'
@@ -630,6 +635,9 @@ def genTasks = { target ->
     }
     mkdir(PKG_OUTPUT_DIR)
     def RELEASE_DIST = "rpmbuild --eval '%{?dist}' 2>/dev/null".execute().text.trim().replaceAll("'",'')
+    // test
+    println "build_dir"
+    println "$PKG_BUILD_DIR/rpm/SRPMS/${PKG_NAME}-${PKG_VERSION}-${BIGTOP_BUILD_STAMP}${RELEASE_DIST}.src.rpm"
     copy {
       from "$PKG_BUILD_DIR/rpm/SRPMS/${PKG_NAME}-${PKG_VERSION}-${BIGTOP_BUILD_STAMP}${RELEASE_DIST}.src.rpm"
       into PKG_OUTPUT_DIR
