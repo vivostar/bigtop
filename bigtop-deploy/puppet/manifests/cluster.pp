@@ -180,6 +180,7 @@ class node_with_roles ($roles = hiera("bigtop::roles")) inherits hadoop_cluster_
 
   $modules = [
     "alluxio",
+    "azkaban",
     "flink",
     "hadoop",
     "hadoop_hbase",

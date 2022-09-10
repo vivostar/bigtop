@@ -15,13 +15,26 @@ class azkaban {
   }
 
   class solo_server {
-    archive { '/tmp/azkaban-solo-server-3.90.0.tar.gz':
+    file {'/tmp/azkaban-solo-server-3.90.0.tar.gz':
+      ensure        => present,
+      source        => "puppet:///modules/azkaban/azkaban-solo-server-3.90.0.tar.gz",
+    }
+
+    file {'/usr/lib/azkaban-solo-server':
+      ensure        => directory,
+    }
+
+    archive { '/tmp/azkaban-solo-server.tar.gz':
       ensure          => present,
-      source          => 'puppet:///modules/azkaban/azkaban-solo-server-3.90.0.tar.gz',
+      source          => "/tmp/azkaban-solo-server-3.90.0.tar.gz",
       extract         => true,
       extract_command => 'tar xfz %s --strip-components=1',
       extract_path    => '/usr/lib/azkaban-solo-server',
       cleanup         => true,
+      require         => [
+        File['/tmp/azkaban-solo-server-3.90.0.tar.gz'],
+        File['/usr/lib/azkaban-solo-server'],
+      ],
     }
   }
 
