@@ -131,6 +131,9 @@ $roles_map = {
   livy => {
     master => ["livy-server"],
   },
+  azkaban => {
+    master => ['azkaban-solo-server'],
+  },
 }
 
 class hadoop_cluster_node (
