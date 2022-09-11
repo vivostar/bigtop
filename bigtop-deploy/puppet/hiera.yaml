@@ -1,8 +1,9 @@
 ---
 :yaml:
-  :datadir: /bigtop-home/bigtop-deploy/puppet/hieradata
+  :datadir: /etc/puppet/hieradata
 :hierarchy:
-  - "%{::fqdn}_site"
+  - site
+  - bigtop/mysql
 #  - "bigtop/%{hadoop_hiera_ha_path}"
   - bigtop/cluster
   - bigtop/repo

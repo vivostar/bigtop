@@ -48,6 +48,7 @@ case ${ID}-${VERSION_ID} in
         gem install --bindir /usr/bin --no-ri --no-rdoc json_pure:2.5.1 puppet:3.6.2
         puppet module install puppetlabs-stdlib --version 4.12.0
         puppet module install puppet-archive --version 1.3.0
+        puppet module install puppetlabs-mysql --version 3.11.0
         ;;
     centos-8*)
         sed -i -e 's/^\(mirrorlist\)/#\1/' -e 's,^#baseurl=http://mirror.centos.org,baseurl=https://vault.centos.org,' /etc/yum.repos.d/CentOS-Linux-*

@@ -132,8 +132,8 @@ $roles_map = {
     master => ["livy-server"],
   },
   azkaban => {
-    master => ['azkaban-solo-server'],
-    client => ['azkaban-web-server'],
+    # master => ['azkaban-solo-server'],
+    master => ['azkaban-web-server', 'azkaban-db'],
     worker => ['azkaban-exec-server'],
   },
 }
