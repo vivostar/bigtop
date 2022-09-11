@@ -133,6 +133,8 @@ $roles_map = {
   },
   azkaban => {
     master => ['azkaban-solo-server'],
+    client => ['azkaban-web-server'],
+    worker => ['azkaban-exec-server'],
   },
 }
 
