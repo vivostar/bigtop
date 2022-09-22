@@ -299,7 +299,7 @@ if [ $# -eq 0 ]; then
 fi
 
 yamlconf="config.yaml"
-DOCKER_COMPOSE_CMD="docker-compose"
+DOCKER_COMPOSE_CMD="docker compose"
 
 BIGTOP_PUPPET_DIR=../../bigtop-deploy/puppet
 if [ -e .provision_id ]; then
