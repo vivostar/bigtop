@@ -48,9 +48,9 @@ start() {
 
     LOG_FILE=/var/log/flink/${DAEMON}.out
 
-    runuser -s /bin/bash $SVC_USER -c "nohup nice -n 0 ${EXEC_PATH} -d > $LOG_FILE 2>&1 & "
+    runuser -s /bin/bash $SVC_USER -c "nohup ${EXEC_PATH} > $LOG_FILE &"'echo $!'"> $PIDFILE"
 
-    sleep 3
+    sleep 10
 
     checkstatusofproc
     RETVAL=$?
