@@ -128,6 +128,25 @@ bigtop {
   ]
 
   components {
+    'hudi' {
+      name    = 'hudi'
+      pkg     = name
+      rpm_pkg_suffix = "_" + bigtop.base_version.replace(".", "_")
+      version {
+        base  = '0.13.0'
+        pkg   = base
+        release = 1
+      }
+      tarball {
+        source      = "hudi-${version.base}.src.tgz"
+        destination = "hudi-${version.base}-src.tar.gz"
+      }
+      url {
+        download_path = "/hudi/${version.base}"
+        site          = "${apache.APACHE_MIRROR}/${download_path}"
+        archive       = "${apache.APACHE_ARCHIVE}/${download_path}"
+      }
+    }
     'zookeeper' {
       name    = 'zookeeper'
       pkg     = name
