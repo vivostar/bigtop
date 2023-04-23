@@ -33,7 +33,7 @@ Source0: %{hudi_name}-%{hudi_base_version}-src.tar.gz
 Source1: do-component-build
 #BIGTOP_PATCH_FILES
 BuildArch: noarch
-Requires: %{hadoop_pkg_name} %{hadoop_pkg_name}-hdfs %{hadoop_pkg_name}-yarn %{hadoop_pkg_name}-mapreduce spark
+Requires: %{hadoop_pkg_name} %{hadoop_pkg_name}-hdfs %{hadoop_pkg_name}-yarn %{hadoop_pkg_name}-mapreduce
 
 %description
 Apache Hudi is the next generation streaming data lake platform. 
@@ -43,13 +43,27 @@ advanced indexes, streaming ingestion services, data clustering/compaction
 optimizations, and concurrency all while keeping your data in open source file 
 formats.
 
-%package spark
-Summary: Apache Hudi Spark Bundle
-Group: System/Daemons
-Requires:%{hadoop_pkg_name} %{hadoop_pkg_name}-hdfs %{hadoop_pkg_name}-yarn %{hadoop_pkg_name}-mapreduce spark
+%define package_macro() \
+%package %1 \
+Summary: apache hudi %1 bundle \
+Group: System/Daemons \
+%description %1 \
+apache hudi %1 bundle 
 
-%description spark
-Apache Hudi Spark Bundle
+%package_macro spark
+%package_macro flink
+%package_macro datahub-sync
+%package_macro timeline-server
+%package_macro kafka-connect
+%package_macro trino
+%package_macro utilities
+%package_macro utilities-slim
+%package_macro aws
+%package_macro gcp
+%package_macro hadoop-mr
+%package_macro presto
+%package_macro cli
+%package_macro hive-sync
 
 %prep
 %setup -q -n %{hudi_name}-%{hudi_base_version}
@@ -62,7 +76,19 @@ bash %{SOURCE1}
 
 LIB_DIR=${LIB_DIR:-/usr/lib/hudi}
 install -d -m 0755 $RPM_BUILD_ROOT/$LIB_DIR/lib
-cp ./packaging/hudi-spark-bundle/target/hudi-spark-bundle_2.11-%{hudi_version}.jar $RPM_BUILD_ROOT/$LIB_DIR/lib
+
+for comp in spark utilities utilities-slim cli        
+do 
+cp ./packaging/hudi-${comp}-bundle/target/hudi-${comp}-bundle_2.11-%{hudi_version}.jar $RPM_BUILD_ROOT/$LIB_DIR/lib
+done
+
+for comp in datahub-sync timeline-server kafka-connect trino gcp \
+            aws hadoop-mr presto hive-sync          
+do 
+cp ./packaging/hudi-${comp}-bundle/target/hudi-${comp}-bundle-%{hudi_version}.jar $RPM_BUILD_ROOT/$LIB_DIR/lib
+done
+
+cp ./packaging/hudi-flink-bundle/target/hudi-flink1.16-bundle-%{hudi_version}.jar $RPM_BUILD_ROOT/$LIB_DIR/lib
 
 %pre
 
@@ -75,6 +101,32 @@ cp ./packaging/hudi-spark-bundle/target/hudi-spark-bundle_2.11-%{hudi_version}.j
 #######################
 #### FILES SECTION ####
 #######################
-%files spark
-%defattr(-,root,root)
-/usr/lib/hudi/lib/hudi-spark-bundle_2.11-%{hudi_version}.jar
+# Scala Jar file management RPMs
+%define jar_scala_macro() \
+%files %1 \
+%defattr(-,root,root) \
+%{usr_lib_hudi}/lib/hudi-%1-bundle_2.11-%{hudi_version}.jar
+
+# Java Jar file management RPMs
+%define jar_macro() \
+%files %1 \
+%defattr(-,root,root) \
+%{usr_lib_hudi}/lib/hudi-%1-bundle-%{hudi_version}.jar
+
+%jar_scala_macro spark
+%jar_macro datahub-sync
+%jar_macro timeline-server
+%jar_macro kafka-connect
+%jar_macro trino
+%jar_scala_macro utilities
+%jar_scala_macro utilities-slim
+%jar_macro aws
+%jar_macro gcp
+%jar_macro hadoop-mr
+%jar_macro presto
+%jar_scala_macro cli
+%jar_macro hive-sync
+
+%files flink
+%defattr(-,root,root) 
+%{usr_lib_hudi}/lib/hudi-flink1.16-bundle-%{hudi_version}.jar
